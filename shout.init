@@ -16,7 +16,7 @@
 # Check that networking is up.
 [ ${NETWORKING} = "no" ] && exit 0
 
-# Check that icecast.conf exists.
+# Check that shout.conf exists.
 [ -f /etc/icecast/shout.conf ] || exit 0
 
 
@@ -26,7 +26,7 @@ case "$1" in
         # Start daemons.
 	msg_starting shout
 	# daemon --user icecast -s /bin/sh 'shout -z -r -t -3'
-	# Our daemon function doesn't include su's --shell function
+	# Our daemon function doesn't include su's --shell option
 	su icecast -s /bin/sh -c 'shout -z -r -t -3' 2>1 > /dev/null
 	ok
 	touch /var/lock/subsys/shout
@@ -45,7 +45,7 @@ case "$1" in
 	status shout
 	;;
   *)
-	show "Usage: %s {start|stop|restart|status}" "shout"
+	msg_Usage "$0 {start|stop|restart|status}"
 	exit 1
 esac
 
