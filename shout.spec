@@ -36,6 +36,7 @@ externos para seleção das músicas.
 %setup -q
 
 %build
+rm -f sock.o
 cp -f /usr/share/automake/config.* .
 aclocal
 autoconf
