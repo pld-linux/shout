@@ -56,15 +56,13 @@ install iceplay $RPM_BUILD_ROOT%{_bindir}
 
 mv -f $RPM_BUILD_ROOT%{_sysconfdir}/icecast/shout.conf.dist $RPM_BUILD_ROOT%{_sysconfdir}/icecast/shout.conf
 
-gzip -9nf BUGS BUGS.iceplay CREDITS README.iceplay README.shout TODO *.example
-
 %clean
 rm -r $RPM_BUILD_ROOT
 
 %pre
 if [ -n "`/usr/bin/getgid icecast`" ]; then
         if [ "`/usr/bin/getgid icecast`" != "57" ]; then
-		echo "Warning: group icecast haven't gid=57. Correct this before installing shout." 1>&2
+		echo "Error: group icecast doesn't have gid=57. Correct this before installing shout." 1>&2
 		exit 1
 	fi
 else
@@ -72,7 +70,7 @@ else
 fi
 if [ -n "`/bin/id -u icecast 2>/dev/null`" ]; then
 	if [ "`/usr/bin/getgid icecast`" != "57" ]; then
-		echo "Warning: user icecast haven't uid=57. Correct this before installing shout." 1>&2
+		echo "Error: user icecast doesn't have uid=57. Correct this before installing shout." 1>&2
 		exit 1
 	fi
 else
@@ -80,7 +78,7 @@ else
 fi
 
 %post
-chkconfig --add shout
+/sbin/chkconfig --add shout
 if [ -f /var/lock/subsys/shout ]; then
         /etc/rc.d/init.d/shout restart >&2
 else
@@ -97,7 +95,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc BUGS.gz BUGS.iceplay.gz CREDITS.gz README.iceplay.gz README.shout.gz TODO.gz *.example.gz
+%doc BUGS BUGS.iceplay CREDITS README.iceplay README.shout TODO *.example
 %attr(754,root,root) /etc/rc.d/init.d/shout
 %attr(640,root,icecast) %config %{_sysconfdir}/icecast/shout.conf
 %attr(755,root,root) %{_bindir}/*
