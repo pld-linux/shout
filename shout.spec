@@ -68,7 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %pre
 if [ -n "`/usr/bin/getgid icecast`" ]; then
-        if [ "`/usr/bin/getgid icecast`" != "57" ]; then
+	if [ "`/usr/bin/getgid icecast`" != "57" ]; then
 		echo "Error: group icecast doesn't have gid=57. Correct this before installing shout." 1>&2
 		exit 1
 	fi
@@ -87,17 +87,17 @@ fi
 %post
 /sbin/chkconfig --add shout
 if [ -f /var/lock/subsys/shout ]; then
-        /etc/rc.d/init.d/shout restart >&2
+	/etc/rc.d/init.d/shout restart >&2
 else
-        echo "Run '/etc/rc.d/init.d/shout start' to start shout deamon." >&2
+	echo "Run '/etc/rc.d/init.d/shout start' to start shout deamon." >&2
 fi
 
 %preun
 if [ "$1" = "0" ] ; then
-        if [ -f /var/lock/subsys/shout ]; then
-                /etc/rc.d/init.d/shout stop >&2
-        fi
-        /sbin/chkconfig --del shout >&2
+	if [ -f /var/lock/subsys/shout ]; then
+		/etc/rc.d/init.d/shout stop >&2
+	fi
+	/sbin/chkconfig --del shout >&2
 fi
 
 %postun
