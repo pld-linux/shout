@@ -26,7 +26,7 @@ fi
 # Check that shout.conf exists.
 [ -f /etc/icecast/shout.conf ] || exit 0
 
-
+RETVAL=0
 # See how we were called.
 case "$1" in
   start)
@@ -37,12 +37,17 @@ case "$1" in
 		# daemon --user icecast -s /bin/sh 'shout -z -r -t -3'
 		# Our daemon function doesn't include su's --shell option
 		su icecast -s /bin/sh -c 'shout -z -r -t -3' 2>&1 > /dev/null
-		ok
-		touch /var/lock/subsys/shout
+		RETVAL=$?
+		if [ $RETVAL -eq 0 ]; then
+			touch /var/lock/subsys/shout
+			ok
+		else
+			RETVAL=1
+			fail
+		fi
 	else
 		# show "%s service is already running." shout
 		msg_already_running shout
-		exit 1
 	fi
 	;;
   stop)
@@ -51,28 +56,24 @@ case "$1" in
 		# show "Stopping %s service" shout
 		msg_stopping shout
 		killproc shout 2> /dev/null
-		RETVAL=$?
 		rm -f /var/lock/subsys/shout
 	else
 		# show "%s service is not running." shout
 		msg_not_running smartd
-		exit 1
 	fi	
 	;;
-  restart|reload)
+  restart|force-reload)
 	$0 stop
 	$0 start
-	;;
-  force-reload)
-	$0 stop && $0 start
 	exit $?
 	;;
   status)
 	status shout
+	exit $?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
-	exit 1
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
 esac
 
 exit $RETVAL
