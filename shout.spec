@@ -27,15 +27,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Shout is a broadcasting tool for icecast streaming servers. It
-broadcasts mp3 files to an icecast server, and supports external
+broadcasts MP3 files to an icecast server, and supports external
 programs which do song selection.
 
 %description -l pl
-Shout odpowiada za dostarczanie strumienia mp3 do serwera Icecast.
+Shout odpowiada za dostarczanie strumienia MP3 do serwera Icecast.
 
 %description -l pt_BR
 Ferramenta de broadcast para servidores de streaming icecast. Faz
-broadcast de arquivos mp3 para um servidor icecast e suporta programas
+broadcast de arquivos MP3 para um servidor icecast e suporta programas
 externos para seleção das músicas.
 
 %prep
