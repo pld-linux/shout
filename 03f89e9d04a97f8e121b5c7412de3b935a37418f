@@ -1,0 +1,6 @@
+- Shout is responsible for feeding a mp3 stream to the server.
+- Modyfied to run from user
+- Added init script
+- Initial release
+
+Spec based on Arne Coucheron <arneco@online.no> from RH
