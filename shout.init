@@ -4,7 +4,7 @@
 #		shout.
 #
 # chkconfig:	345 96 24
-# description:	Icecast is an Internet audio broadcasting system based on
+# description:	Icecast is an Internet audio broadcasting system based on \
 #		MPEG audio technology. Shout is a streamer for icecast.
 
 # Source function library.
