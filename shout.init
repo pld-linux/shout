@@ -1,0 +1,51 @@
+#!/bin/sh
+#
+# shout		This shell script takes care of starting and stopping
+#		shout.
+#
+# chkconfig: 345 96 24
+# description: Icecast is an Internet audio broadcasting system based on
+#              MPEG audio technology. Shout is a streamer for icecast.
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+
+# Check that icecast.conf exists.
+[ -f /etc/icecast/shout.conf ] || exit 0
+
+
+# See how we were called.
+case "$1" in
+  start)
+        # Start daemons.
+	show "Starting %s: " "shout"
+	daemon --user icecast 'shout -z -r -t -3'
+	echo
+	touch /var/lock/subsys/shout
+	;;
+  stop)
+        # Stop daemons.
+	show "Shutting down %s: " "shout"
+	killproc shout 2> /dev/null
+	echo
+	rm -f /var/lock/subsys/shout
+	;;
+  restart)
+        $0 stop
+        $0 start
+        ;;
+  status)
+	status shout
+	;;
+  *)
+	show "Usage: %s {start|stop|restart|status}" "shout"
+	exit 1
+esac
+
+exit 0
