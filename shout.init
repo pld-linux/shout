@@ -27,7 +27,7 @@ case "$1" in
 	msg_starting shout
 	# daemon --user icecast -s /bin/sh 'shout -z -r -t -3'
 	# Our daemon function doesn't include su's --shell option
-	su icecast -s /bin/sh -c 'shout -z -r -t -3' 2>1 > /dev/null
+	su icecast -s /bin/sh -c 'shout -z -r -t -3' 2>&1 > /dev/null
 	ok
 	touch /var/lock/subsys/shout
 	;;
