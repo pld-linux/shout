@@ -1,32 +1,46 @@
 Summary:	Shout - Program for feeding MP3 streams to an Icecast server
 Summary(pl):	Shout - program dostarczaj±cy strumienie MP3 do serwera Icecast
+Summary(pt_BR):	Ferramenta de broadcast de MP3 para o Icecast
 Name:		shout
 Version:	0.8.0
-Release:	1
+Release:	2
 License:	GPL
-Group:		Applications/Multimedia
+Group:		Applications/Sound
 Source0:	http://www.icecast.org/releases/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 URL:		http://www.icecast.org/
-Prereq:		rc-scripts
+BuildRequires:	autoconf
+BuildRequires:	automake
 Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires(post,preun):	/sbin/chkconfig
+Prereq:		rc-scripts
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Shout is responsible for feeding a mp3 stream to the Icecast server.
+Shout is a broadcasting tool for icecast streaming servers. It
+broadcasts mp3 files to an icecast server, and supports external
+programs which do song selection.
 
 %description -l pl
 Shout odpowiada za dostarczanie strumienia mp3 do serwera Icecast.
+
+%description -l pt_BR
+Ferramenta de broadcast para servidores de streaming icecast. Faz
+broadcast de arquivos mp3 para um servidor icecast e suporta programas
+externos para seleção das músicas.
 
 %prep
 %setup -q
 
 %build
-CFLAGS="%{rpmcflags}" ./configure --prefix=%{_prefix} --enable-fsstd
+cp -f /usr/share/automake/config.* .
+aclocal
+autoconf
+%configure \
+	--enable-fsstd
 
 %{__make}
 
@@ -71,7 +85,7 @@ if [ -f /var/lock/subsys/shout ]; then
 else
         echo "Run '/etc/rc.d/init.d/shout start' to start shout deamon." >&2
 fi
-		
+
 %preun
 if [ "$1" = "0" ] ; then
         if [ -f /var/lock/subsys/shout ]; then
