@@ -3,7 +3,7 @@ Summary(pl):	Shout - program dostarczaj±cy strumienie MP3 do serwera Icecast
 Summary(pt_BR):	Ferramenta de broadcast de MP3 para o Icecast
 Name:		shout
 Version:	0.8.0
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Sound
 Source0:	http://www.icecast.org/releases/%{name}-%{version}.tar.gz
