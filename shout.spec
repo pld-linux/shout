@@ -1,41 +1,34 @@
 Summary:	Shout - Program for feeding MP3 streams to an Icecast server
+Summary(pl):	Shout - program dostarczaj±cy strumienie MP3 do serwera Icecast
 Name:		shout
 Version:	0.8.0
 Release:	1
-URL:		http://www.icecast.org
-Source0:	http://www.icecast.org/releases/%{name}-%{version}.tar.gz
-Source1:	%{name}.init
 License:	GPL
 Group:		Applications/Multimedia
-Prereq:         rc-scripts
-Prereq:         /sbin/chkconfig
-Requires(pre):  /bin/id
-Requires(pre):  /usr/bin/getgid
-Requires(pre):  /usr/sbin/groupadd
-Requires(pre):  /usr/sbin/useradd
+Source0:	http://www.icecast.org/releases/%{name}-%{version}.tar.gz
+Source1:	%{name}.init
+URL:		http://www.icecast.org/
+Prereq:		rc-scripts
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd
+Requires(post,preun):	/sbin/chkconfig
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Shout is responsible for feeding a mp3 stream to the server.
+Shout is responsible for feeding a mp3 stream to the Icecast server.
+
+%description -l pl
+Shout odpowiada za dostarczanie strumienia mp3 do serwera Icecast.
 
 %prep
-
 %setup -q
 
 %build
 CFLAGS="%{rpmcflags}" ./configure --prefix=%{_prefix} --enable-fsstd
 
-# Test if we have a SMP capable computer, and take advantage of it
-if [ -x %{_bindir}/getconf ] ; then
-  NRPROC=$(%{_bindir}/getconf _NPROCESSORS_ONLN)
-   if [ $NRPROC -eq 0 ] ; then
-    NRPROC=1
-  fi
-else
-  NRPROC=1
-fi
-
-%{__make} -j $NRPROC
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -44,10 +37,11 @@ install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 %{__make} DESTDIR=$RPM_BUILD_ROOT install
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/shout
-install -m755 iceplay $RPM_BUILD_ROOT%{_bindir}
-mv $RPM_BUILD_ROOT%{_sysconfdir}/icecast/shout.conf.dist $RPM_BUILD_ROOT%{_sysconfdir}/icecast/shout.conf
+install iceplay $RPM_BUILD_ROOT%{_bindir}
 
-strip $RPM_BUILD_ROOT%{_bindir}/* || :
+mv -f $RPM_BUILD_ROOT%{_sysconfdir}/icecast/shout.conf.dist $RPM_BUILD_ROOT%{_sysconfdir}/icecast/shout.conf
+
+gzip -9nf BUGS BUGS.iceplay CREDITS README.iceplay README.shout TODO *.example
 
 %clean
 rm -r $RPM_BUILD_ROOT
@@ -67,7 +61,7 @@ if [ -n "`/bin/id -u icecast 2>/dev/null`" ]; then
 		exit 1
 	fi
 else
-	/usr/sbin/useradd -u 57 -r -d /dev/null -s /bin/bash -c "Streamcast" -g icecast icecast 1>&2
+	/usr/sbin/useradd -u 57 -r -d /dev/null -s /bin/sh -c "Streamcast" -g icecast icecast 1>&2
 fi
 
 %post
@@ -87,8 +81,8 @@ if [ "$1" = "0" ] ; then
 fi
 
 %files
-%defattr(644,icecast,icecast,755)
-%doc BUGS BUGS.iceplay CREDITS README.iceplay README.shout TODO *.example
-%attr(754,root,icecast) /etc/rc.d/init.d/shout
+%defattr(644,root,root,755)
+%doc BUGS.gz BUGS.iceplay.gz CREDITS.gz README.iceplay.gz README.shout.gz TODO.gz *.example.gz
+%attr(754,root,root) /etc/rc.d/init.d/shout
 %attr(640,root,icecast) %config %{_sysconfdir}/icecast/shout.conf
-%attr(750,icecast,icecast) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/*
