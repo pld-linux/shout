@@ -24,16 +24,17 @@
 case "$1" in
   start)
         # Start daemons.
-	show "Starting %s: " "shout"
-	daemon --user icecast 'shout -z -r -t -3'
-	echo
+	msg_starting shout
+	# daemon --user icecast -s /bin/sh 'shout -z -r -t -3'
+	# Our daemon function doesn't include su's --shell function
+	su icecast -s /bin/sh -c 'shout -z -r -t -3' 2>1 > /dev/null
+	ok
 	touch /var/lock/subsys/shout
 	;;
   stop)
         # Stop daemons.
-	show "Shutting down %s: " "shout"
+	msg_stopping shout
 	killproc shout 2> /dev/null
-	echo
 	rm -f /var/lock/subsys/shout
 	;;
   restart)
