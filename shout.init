@@ -45,7 +45,7 @@ case "$1" in
 	status shout
 	;;
   *)
-	msg_Usage "$0 {start|stop|restart|status}"
+	msg_usage "$0 {start|stop|restart|status}"
 	exit 1
 esac
 
