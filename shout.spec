@@ -61,7 +61,7 @@ if [ -n "`/bin/id -u icecast 2>/dev/null`" ]; then
 		exit 1
 	fi
 else
-	/usr/sbin/useradd -u 57 -r -d /dev/null -s /bin/sh -c "Streamcast" -g icecast icecast 1>&2
+	/usr/sbin/useradd -u 57 -r -d /dev/null -s /bin/false -c "Streamcast" -g icecast icecast 1>&2
 fi
 
 %post
