@@ -39,7 +39,7 @@ externos para seleção das músicas.
 rm -f sock.o
 cp -f /usr/share/automake/config.* .
 aclocal
-autoconf
+%{__autoconf}
 %configure \
 	--enable-fsstd
 
