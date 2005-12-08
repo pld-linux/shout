@@ -57,7 +57,7 @@ case "$1" in
 		rm -f /var/lock/subsys/shout
 	else
 		msg_not_running smartd
-	fi	
+	fi
 	;;
   restart|force-reload)
 	$0 stop
