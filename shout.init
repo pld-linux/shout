@@ -46,19 +46,16 @@ case "$1" in
 			fail
 		fi
 	else
-		# show "%s service is already running." shout
 		msg_already_running shout
 	fi
 	;;
   stop)
 	if [ -f /var/lock/subsys/smartd ]; then
 		# Stop daemons.
-		# show "Stopping %s service" shout
 		msg_stopping shout
 		killproc shout 2> /dev/null
 		rm -f /var/lock/subsys/shout
 	else
-		# show "%s service is not running." shout
 		msg_not_running smartd
 	fi	
 	;;
