@@ -75,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 if [ -f /var/lock/subsys/shout ]; then
 	/etc/rc.d/init.d/shout restart >&2
 else
-	echo "Run '/etc/rc.d/init.d/shout start' to start shout deamon." >&2
+	echo "Run '/etc/rc.d/init.d/shout start' to start shout daemon." >&2
 fi
 
 %preun
