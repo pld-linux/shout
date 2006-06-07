@@ -68,7 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %pre
 %groupadd -g 57 icecast
-%useradd -u 57 -r -d /dev/null -s /bin/false -c "Streamcast" -g icecast icecast
+%useradd -u 57 -r -d /usr/share/empty -s /bin/false -c "Streamcast" -g icecast icecast
 
 %post
 /sbin/chkconfig --add shout
