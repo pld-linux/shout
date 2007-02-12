@@ -1,6 +1,6 @@
 Summary:	Shout - Program for feeding MP3 streams to an Icecast server
-Summary(pl.UTF-8):   Shout - program dostarczający strumienie MP3 do serwera Icecast
-Summary(pt_BR.UTF-8):   Ferramenta de broadcast de MP3 para o Icecast
+Summary(pl.UTF-8):	Shout - program dostarczający strumienie MP3 do serwera Icecast
+Summary(pt_BR.UTF-8):	Ferramenta de broadcast de MP3 para o Icecast
 Name:		shout
 Version:	0.8.0
 Release:	3
