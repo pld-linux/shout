@@ -31,7 +31,7 @@ RETVAL=0
 case "$1" in
   start)
 	# Check if the service is already running?
-	if [ ! -f /var/lock/subsys/smartd ]; then
+	if [ ! -f /var/lock/subsys/shout ]; then
 		# Start daemons.
 		msg_starting shout
 		# daemon --user icecast -s /bin/sh 'shout -z -r -t -3'
@@ -50,13 +50,13 @@ case "$1" in
 	fi
 	;;
   stop)
-	if [ -f /var/lock/subsys/smartd ]; then
+	if [ -f /var/lock/subsys/shout ]; then
 		# Stop daemons.
 		msg_stopping shout
 		killproc shout 2> /dev/null
 		rm -f /var/lock/subsys/shout
 	else
-		msg_not_running smartd
+		msg_not_running shout
 	fi
 	;;
   restart|force-reload)
