@@ -13,7 +13,7 @@ URL:		http://www.icecast.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	rpmbuild(macros) >= 1.202
-PreReq:		rc-scripts
+Requires:	rc-scripts
 Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
@@ -72,17 +72,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add shout
-if [ -f /var/lock/subsys/shout ]; then
-	/etc/rc.d/init.d/shout restart >&2
-else
-	echo "Run '/etc/rc.d/init.d/shout start' to start shout daemon." >&2
-fi
+%service shout restart
 
 %preun
 if [ "$1" = "0" ] ; then
-	if [ -f /var/lock/subsys/shout ]; then
-		/etc/rc.d/init.d/shout stop >&2
-	fi
+	%service shout stop
 	/sbin/chkconfig --del shout >&2
 fi
 
